@@ -12,14 +12,17 @@ class Graph {
   }
 
   addEdge(node1, node2) {
-    // Undirected edges
     if (this.adjacentList[node1]) {
       this.adjacentList[node1].push(node2);
     }
 
-    if (this.adjacentList[node2]) {
-      this.adjacentList[node2].push(node1);
-    }
+    // if (this.adjacentList[node1] && !this.adjacentList[node1].includes(node2)) {
+    //   this.adjacentList[node1].push(node2);
+    // }
+
+    // if (this.adjacentList[node2] && !this.adjacentList[node2].includes(node1)) {
+    //   this.adjacentList[node2].push(node1);
+    // }
   }
 
   showConnections() {
