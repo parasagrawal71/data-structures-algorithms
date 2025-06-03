@@ -28,7 +28,8 @@ function MinHeap() {
     list.push(num);
     if (list.length > 1) {
       // Heapify internal nodes
-      for (let i = parseInt(list.length / 2 - 1); i >= 0; i--) {
+      const inSize = Math.floor(list.length / 2) - 1; // Internal nodes' size
+      for (let i = inSize; i >= 0; i--) {
         this.min_heapify(list, list.length, i);
       }
     }
@@ -48,7 +49,8 @@ function MinHeap() {
     list.splice(size - 1);
 
     // Heapify the list again
-    for (let i = parseInt(list.length / 2 - 1); i >= 0; i--) {
+    const inSize = Math.floor(list.length / 2) - 1; // Internal nodes' size
+    for (let i = inSize; i >= 0; i--) {
       this.min_heapify(list, list.length, i);
     }
   };
@@ -70,7 +72,7 @@ function MinHeap() {
   this.isEmpty = () => list.length === 0;
 
   // Return head
-  this.getList = () => list;
+  this.toArray = () => list;
 }
 
 // Input:
@@ -81,10 +83,10 @@ heap.insert(9);
 heap.insert(5);
 heap.insert(2);
 
-console.log(heap.getList()); // [2, 3, 9, 5, 4]
+console.log(heap.toArray()); // [2, 3, 9, 5, 4]
 
 heap.delete(9);
-console.log(heap.getList()); // [2, 3, 4, 5]
+console.log(heap.toArray()); // [2, 3, 4, 5]
 
 heap.insert(7);
-console.log(heap.getList()); // [2, 3, 4, 5, 7]
+console.log(heap.toArray()); // [2, 3, 4, 5, 7]

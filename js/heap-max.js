@@ -28,7 +28,8 @@ function MaxHeap() {
     list.push(num);
     if (list.length > 1) {
       // Heapify internal nodes
-      for (let i = parseInt(list.length / 2 - 1); i >= 0; i--) {
+      const inSize = Math.floor(list.length / 2) - 1; // Internal nodes' size
+      for (let i = inSize; i >= 0; i--) {
         this.max_heapify(list, list.length, i);
       }
     }
@@ -48,7 +49,8 @@ function MaxHeap() {
     list.splice(size - 1);
 
     // Heapify the list again
-    for (let i = parseInt(list.length / 2 - 1); i >= 0; i--) {
+    const inSize = Math.floor(list.length / 2) - 1; // Internal nodes' size
+    for (let i = inSize; i >= 0; i--) {
       this.max_heapify(list, list.length, i);
     }
   };
@@ -70,7 +72,7 @@ function MaxHeap() {
   this.isEmpty = () => list.length === 0;
 
   // Return head
-  this.getList = () => list;
+  this.toArray = () => list;
 }
 
 // Input:
@@ -80,10 +82,10 @@ heap.insert(4);
 heap.insert(9);
 heap.insert(5);
 heap.insert(2);
-console.log(heap.getList()); // [9, 5, 4, 3, 2]
+console.log(heap.toArray()); // [9, 5, 4, 3, 2]
 
 heap.delete(9);
-console.log(heap.getList()); // [5, 3, 4, 2]
+console.log(heap.toArray()); // [5, 3, 4, 2]
 
 heap.insert(7);
-console.log(heap.getList()); // [7, 5, 4, 2, 3]
+console.log(heap.toArray()); // [7, 5, 4, 2, 3]

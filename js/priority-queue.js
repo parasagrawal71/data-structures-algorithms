@@ -31,7 +31,8 @@ function PriorityQueue(compareFn = (a, b) => a - b) {
     list.push(num);
     if (list.length > 1) {
       // Heapify internal nodes
-      for (let i = parseInt(list.length / 2 - 1); i >= 0; i--) {
+      const inSize = Math.floor(list.length / 2) - 1; // Internal nodes' size
+      for (let i = inSize; i >= 0; i--) {
         this.heapify(list, list.length, i);
       }
     }
@@ -51,7 +52,8 @@ function PriorityQueue(compareFn = (a, b) => a - b) {
     list.splice(size - 1);
 
     // Heapify the list again
-    for (let i = parseInt(list.length / 2 - 1); i >= 0; i--) {
+    const inSize = Math.floor(list.length / 2) - 1; // Internal nodes' size
+    for (let i = inSize; i >= 0; i--) {
       this.heapify(list, list.length, i);
     }
   };
@@ -73,7 +75,7 @@ function PriorityQueue(compareFn = (a, b) => a - b) {
   this.isEmpty = () => list.length === 0;
 
   // Return head
-  this.getList = () => list;
+  this.toArray = () => list;
 }
 
 // // Input:
@@ -84,13 +86,13 @@ function PriorityQueue(compareFn = (a, b) => a - b) {
 // pq.insert(5);
 // pq.insert(2);
 
-// console.log(pq.getList()); // [2, 3, 9, 5, 4]
+// console.log(pq.toArray()); // [2, 3, 9, 5, 4]
 
 // pq.delete(9);
-// console.log(pq.getList()); // [2, 3, 4, 5]
+// console.log(pq.toArray()); // [2, 3, 4, 5]
 
 // pq.insert(7);
-// console.log(pq.getList()); // [2, 3, 4, 5, 7]
+// console.log(pq.toArray()); // [2, 3, 4, 5, 7]
 
 /**
  * Testing
