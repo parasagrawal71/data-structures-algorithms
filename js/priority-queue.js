@@ -1,60 +1,113 @@
-const {
-  MinPriorityQueue,
-  PriorityQueue,
-} = require("@datastructures-js/priority-queue");
+function PriorityQueue(compareFn = (a, b) => a - b) {
+  let compare = (a, b) => compareFn(a, b) > 0;
+  let list = [];
 
-const pq = new MinPriorityQueue();
-pq.push(1); // pq.enqueue(1);
-pq.push(10);
-pq.push(5);
-pq.push(8);
-console.log(`pq: `, pq.toArray());
+  this.heapify = (A, N, i) => {
+    // N can be less than A.length
 
-console.log(`\nfront: `, pq.front());
-console.log(`back: `, pq.back());
+    const l = 2 * i + 1; // l = Left child's index
+    const r = 2 * i + 2; // r = Right child's index
+    let prior = i; // Index with highest priority among {l, r, i}
+    if (l < N && compare(A[prior], A[l])) {
+      // IMPORTANT: Since a > b, A[prior] should be first argument for min-heap
+      prior = l;
+    }
 
-console.log(`\npop: `, pq.pop()); // pq.dequeue();
-console.log(`pq: `, pq.toArray());
+    if (r < N && compare(A[prior], A[r])) {
+      // IMPORTANT: Since a > b, A[prior] should be first argument for min-heap
+      prior = r;
+    }
 
-// console.log(
-//   `\ncontains: `,
-//   pq.contains((n) => n == 10)
-// );
+    if (prior !== i) {
+      [A[i], A[prior]] = [A[prior], A[i]];
+      this.heapify(A, N, prior);
+    }
 
-console.log(
-  `\nremove: `,
-  pq.remove((n) => n == 10)
-);
-console.log(`pq: `, pq.toArray());
+    return A;
+  };
 
-console.log(`\nisEmpty: `, pq.isEmpty());
+  // Insert Value
+  this.insert = (num) => {
+    list.push(num);
+    if (list.length > 1) {
+      // Heapify internal nodes
+      for (let i = parseInt(list.length / 2 - 1); i >= 0; i--) {
+        this.heapify(list, list.length, i);
+      }
+    }
+  };
 
-console.log(`\nsize: `, pq.size());
+  // Remove Value
+  this.delete = (num) => {
+    const size = list.length;
 
-pq.clear();
-console.log(`\npq: `, pq.toArray());
+    // Get the index of the number to be removed
+    let i = list.findIndex((item) => item === num);
 
-// ************************************************************
+    // Swap the number with last element
+    [list[i], list[size - 1]] = [list[size - 1], list[i]];
 
-// weight, node, parent
-const pq2 = new PriorityQueue(([w1, n1, p1], [w2, n2, p2]) => {
-  if (w1 !== w2) return w1 - w2;
-  if (n1 !== n2) return n1 - n2;
-  return p1 - p2;
-});
-pq2.push([5, 10, 0]);
-pq2.push([1, 2, 0]);
-pq2.push([1, 3, 0]);
-console.log(`pq: `, pq2.toArray());
+    // Remove the last element
+    list.splice(size - 1);
 
-console.log(`pop: `, pq2.pop());
+    // Heapify the list again
+    for (let i = parseInt(list.length / 2 - 1); i >= 0; i--) {
+      this.heapify(list, list.length, i);
+    }
+  };
 
-// ************************************************************
+  // Return the highest priority item
+  this.peek = () => list[0];
 
-const numbers = [3, -2, 5, 0, -1, -5, 4];
-const pq_from_array = PriorityQueue.fromArray(numbers, (a, b) => a - b);
-console.log(`numbers: `, numbers); // [-5, -1, -2, 3, 0, 5, 4]
-pq_from_array.pop(); // -5
-pq_from_array.pop(); // -2
-pq_from_array.pop(); // -1
-console.log(`numbers: `, numbers); // [ 0, 3, 4, 5 ]
+  // Remove and return the highest priority item
+  this.pop = () => {
+    const priorityItem = list[0];
+    this.delete(priorityItem);
+    return priorityItem;
+  };
+
+  // Size
+  this.size = () => list.length;
+
+  // IsEmpty
+  this.isEmpty = () => list.length === 0;
+
+  // Return head
+  this.getList = () => list;
+}
+
+// // Input:
+// const pq = new PriorityQueue();
+// pq.insert(3);
+// pq.insert(4);
+// pq.insert(9);
+// pq.insert(5);
+// pq.insert(2);
+
+// console.log(pq.getList()); // [2, 3, 9, 5, 4]
+
+// pq.delete(9);
+// console.log(pq.getList()); // [2, 3, 4, 5]
+
+// pq.insert(7);
+// console.log(pq.getList()); // [2, 3, 4, 5, 7]
+
+/**
+ * Testing
+ */
+const pq = new PriorityQueue((a, b) => a - b);
+// (a, b) => a - b means
+//returns        1    if    a    has    higher    priority,
+//returns        0    if    both    have    the    same    priority
+//returns        -1    if    b    has    higher    priority.
+// smaller numbers are closer to index:0
+// which means smaller number are to be removed sooner
+
+pq.insert(5); // now 5 is the only element
+pq.insert(2); // 2 added
+console.log(`a). ${pq.peek()}`); // 2, since smaller number are sooner to be removed
+pq.insert(1); // 1 added
+console.log(`b). ${pq.peek()}`); // 1, since smaller number are sooner to be removed
+console.log(`c). ${pq.pop()}`); // 1 is removed, 2 and 5 are left
+console.log(`d). ${pq.peek()}`); // 2 is the smallest now, this returns 2
+console.log(`e). ${pq.pop()}`); // 2 is removed, only 5 is left
