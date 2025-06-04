@@ -1,6 +1,6 @@
 const {
-  MinPriorityQueue,
-  PriorityQueue,
+    MinPriorityQueue,
+    PriorityQueue,
 } = require("@datastructures-js/priority-queue");
 
 const pq = new MinPriorityQueue();
@@ -22,8 +22,8 @@ console.log(`pq: `, pq.toArray());
 // );
 
 console.log(
-  `\nremove: `,
-  pq.remove((n) => n == 10)
+    `\nremove: `,
+    pq.remove((n) => n == 10),
 );
 console.log(`pq: `, pq.toArray());
 
@@ -38,9 +38,9 @@ console.log(`\npq: `, pq.toArray());
 
 // weight, node, parent
 const pq2 = new PriorityQueue(([w1, n1, p1], [w2, n2, p2]) => {
-  if (w1 !== w2) return w1 - w2;
-  if (n1 !== n2) return n1 - n2;
-  return p1 - p2;
+    if (w1 !== w2) return w1 - w2;
+    if (n1 !== n2) return n1 - n2;
+    return p1 - p2;
 });
 pq2.push([5, 10, 0]);
 pq2.push([1, 2, 0]);

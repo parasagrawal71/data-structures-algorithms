@@ -1,81 +1,81 @@
 function PriorityQueue(compareFn = (a, b) => a - b) {
-  let compare = (a, b) => compareFn(a, b) > 0;
-  let list = [];
+    let compare = (a, b) => compareFn(a, b) > 0;
+    let list = [];
 
-  this.heapify = (A, N, i) => {
-    // N can be less than A.length
+    this.heapify = (A, N, i) => {
+        // N can be less than A.length
 
-    const l = 2 * i + 1; // l = Left child's index
-    const r = 2 * i + 2; // r = Right child's index
-    let prior = i; // Index with highest priority among {l, r, i}
-    if (l < N && compare(A[prior], A[l])) {
-      // IMPORTANT: Since a > b, A[prior] should be first argument for min-heap
-      prior = l;
-    }
+        const l = 2 * i + 1; // l = Left child's index
+        const r = 2 * i + 2; // r = Right child's index
+        let prior = i; // Index with highest priority among {l, r, i}
+        if (l < N && compare(A[prior], A[l])) {
+            // IMPORTANT: Since a > b, A[prior] should be first argument for min-heap
+            prior = l;
+        }
 
-    if (r < N && compare(A[prior], A[r])) {
-      // IMPORTANT: Since a > b, A[prior] should be first argument for min-heap
-      prior = r;
-    }
+        if (r < N && compare(A[prior], A[r])) {
+            // IMPORTANT: Since a > b, A[prior] should be first argument for min-heap
+            prior = r;
+        }
 
-    if (prior !== i) {
-      [A[i], A[prior]] = [A[prior], A[i]];
-      this.heapify(A, N, prior);
-    }
+        if (prior !== i) {
+            [A[i], A[prior]] = [A[prior], A[i]];
+            this.heapify(A, N, prior);
+        }
 
-    return A;
-  };
+        return A;
+    };
 
-  // Insert Value
-  this.insert = (num) => {
-    list.push(num);
-    if (list.length > 1) {
-      // Heapify internal nodes
-      const inSize = Math.floor(list.length / 2) - 1; // Internal nodes' size
-      for (let i = inSize; i >= 0; i--) {
-        this.heapify(list, list.length, i);
-      }
-    }
-  };
+    // Insert Value
+    this.insert = (num) => {
+        list.push(num);
+        if (list.length > 1) {
+            // Heapify internal nodes
+            const inSize = Math.floor(list.length / 2) - 1; // Internal nodes' size
+            for (let i = inSize; i >= 0; i--) {
+                this.heapify(list, list.length, i);
+            }
+        }
+    };
 
-  // Remove Value
-  this.delete = (num) => {
-    const size = list.length;
+    // Remove Value
+    this.delete = (num) => {
+        const size = list.length;
 
-    // Get the index of the number to be removed
-    let i = list.findIndex((item) => item === num);
+        // Get the index of the number to be removed
+        let i = list.findIndex((item) => item === num);
 
-    // Swap the number with last element
-    [list[i], list[size - 1]] = [list[size - 1], list[i]];
+        // Swap the number with last element
+        [list[i], list[size - 1]] = [list[size - 1], list[i]];
 
-    // Remove the last element
-    list.splice(size - 1);
+        // Remove the last element
+        list.splice(size - 1);
 
-    // Heapify the list again
-    const inSize = Math.floor(list.length / 2) - 1; // Internal nodes' size
-    for (let i = inSize; i >= 0; i--) {
-      this.heapify(list, list.length, i);
-    }
-  };
+        // Heapify the list again
+        const inSize = Math.floor(list.length / 2) - 1; // Internal nodes' size
+        for (let i = inSize; i >= 0; i--) {
+            this.heapify(list, list.length, i);
+        }
+    };
 
-  // Return the highest priority item
-  this.peek = () => list[0];
+    // Return the highest priority item
+    this.peek = () => list[0];
 
-  // Remove and return the highest priority item
-  this.pop = () => {
-    const priorityItem = list[0];
-    this.delete(priorityItem);
-    return priorityItem;
-  };
+    // Remove and return the highest priority item
+    this.pop = () => {
+        const priorityItem = list[0];
+        this.delete(priorityItem);
+        return priorityItem;
+    };
 
-  // Size
-  this.size = () => list.length;
+    // Size
+    this.size = () => list.length;
 
-  // IsEmpty
-  this.isEmpty = () => list.length === 0;
+    // IsEmpty
+    this.isEmpty = () => list.length === 0;
 
-  // Return head
-  this.toArray = () => list;
+    // Return head
+    this.toArray = () => list;
 }
 
 // // Input:
