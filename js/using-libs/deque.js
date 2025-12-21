@@ -2,7 +2,9 @@ const { Deque } = require("@datastructures-js/deque");
 
 const dq = new Deque();
 dq.pushBack(1);
+console.log(dq.toArray()); // [ 1 ]
 dq.pushBack(2);
+console.log(dq.toArray()); // [ 1, 2 ]
 dq.pushBack(3);
 console.log(dq.toArray()); // [ 1, 2, 3 ]
 
